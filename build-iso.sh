@@ -228,15 +228,16 @@ configure_live_build() {
         --iso-publisher "Ubuntu Live ISO Builder" \
         --iso-volume "Ubuntu_${UBUNTU_VERSION}_Live_Server" \
         --bootloader grub-efi \
-        --firmware-chroot true \
-        --firmware-binary true \
+        --firmware-chroot false \
+        --firmware-binary false \
         --apt-recommends false \
         --apt-secure true \
-        --cache false \
-        --cache-indices false \
-        --cache-packages false \
+        --cache true \
+        --cache-indices true \
+        --cache-packages true \
         --compression gzip \
         --zsync false
+
 
     log_success "Configuración de live-build completada"
 }
@@ -247,6 +248,7 @@ create_installation_hooks() {
 
     local hooks_dir="${BUILD_DIR}/config/hooks/live"
     mkdir -p "$hooks_dir"
+
 
     # Hook para paquetes APT con validaciones
     local apt_packages=$(read_apt_packages)
