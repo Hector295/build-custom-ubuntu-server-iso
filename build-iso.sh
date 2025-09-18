@@ -121,9 +121,8 @@ read_apt_packages() {
     local apt_file_specific="${PACKAGES_DIR}/apt-packages-${UBUNTU_CODENAME}.txt"
     local packages=""
 
-    # Leer paquetes genéricos
+    # Leer paquetes genéricos (sin logs para evitar contaminar la salida)
     if [ -f "$apt_file_generic" ]; then
-        log_info "Leyendo paquetes APT genéricos desde ${apt_file_generic}..."
         while IFS= read -r line; do
             # Ignorar líneas vacías y comentarios
             if [[ ! -z "$line" && ! "$line" =~ ^[[:space:]]*# ]]; then
@@ -132,23 +131,17 @@ read_apt_packages() {
         done < "$apt_file_generic"
     fi
 
-    # Leer paquetes específicos de la versión
+    # Leer paquetes específicos de la versión (sin logs para evitar contaminar la salida)
     if [ -f "$apt_file_specific" ]; then
-        log_info "Leyendo paquetes APT específicos para ${UBUNTU_CODENAME} desde ${apt_file_specific}..."
         while IFS= read -r line; do
             # Ignorar líneas vacías y comentarios
             if [[ ! -z "$line" && ! "$line" =~ ^[[:space:]]*# ]]; then
                 packages="${packages} ${line}"
             fi
         done < "$apt_file_specific"
-    else
-        log_warning "Archivo de paquetes específicos no encontrado: ${apt_file_specific}"
     fi
 
-    if [ -z "$packages" ]; then
-        log_warning "No se encontraron archivos de paquetes APT"
-    fi
-
+    # Solo devolver los nombres de paquetes limpios
     echo "$packages"
 }
 
@@ -249,6 +242,7 @@ create_installation_hooks() {
     # Hook para paquetes APT con validaciones
     local apt_packages=$(read_apt_packages)
     if [ ! -z "$apt_packages" ]; then
+        log_info "Paquetes APT a instalar: $(echo $apt_packages | wc -w) paquetes"
         cat > "${hooks_dir}/0010-install-apt-packages.hook.chroot" << 'EOF'
 #!/bin/bash
 set -e
