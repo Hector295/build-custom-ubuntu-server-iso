@@ -172,10 +172,16 @@ read_pip_packages() {
 prepare_build_environment() {
     log_info "Preparando entorno de construcción..."
 
-    # Limpiar directorio de construcción anterior
+    # Limpiar directorio de construcción anterior y cache
     if [ -d "$BUILD_DIR" ]; then
-        log_info "Limpiando construcción anterior..."
+        log_info "Limpiando construcción anterior y cache..."
         sudo rm -rf "$BUILD_DIR"
+    fi
+
+    # Limpiar cache global de live-build que puede estar corrupto
+    if [ -d "/var/cache/live" ]; then
+        log_info "Limpiando cache global de live-build..."
+        sudo rm -rf /var/cache/live
     fi
 
     mkdir -p "$BUILD_DIR"
@@ -226,9 +232,9 @@ configure_live_build() {
         --firmware-binary true \
         --apt-recommends false \
         --apt-secure true \
-        --cache true \
-        --cache-indices true \
-        --cache-packages true \
+        --cache false \
+        --cache-indices false \
+        --cache-packages false \
         --compression gzip \
         --zsync false
 
