@@ -228,9 +228,6 @@ configure_live_build() {
         --bootloader grub-efi \
         --firmware-chroot true \
         --firmware-binary true \
-        --updates true \
-        --security true \
-        --backports false \
         --apt-recommends false \
         --apt-secure true \
         --cache true \
