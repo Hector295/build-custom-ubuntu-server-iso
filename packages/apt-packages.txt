@@ -1,0 +1,35 @@
+# Lista de paquetes APT a instalar en la imagen ISO
+# Un paquete por línea, líneas vacías y comentarios (#) son ignorados
+
+# Herramientas básicas del sistema
+curl
+wget
+git
+vim
+nano
+htop
+tree
+unzip
+
+# Herramientas de red
+net-tools
+iputils-ping
+nmap
+openssh-server
+net-tools
+dmidecode
+ipmitool
+vim
+ethtool
+lldpd
+
+# Desarrollo
+python3
+python3-pip
+python3-venv
+build-essential
+
+# Administración del sistema
+sudo
+systemd
+cron

@@ -1,0 +1,3 @@
+# Lista de paquetes Python (pip) a instalar en la imagen ISO
+# Un paquete por línea, líneas vacías y comentarios (#) son ignorados
+jc
