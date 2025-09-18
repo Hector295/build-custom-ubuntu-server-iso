@@ -196,16 +196,13 @@ configure_live_build() {
 
     cd "$BUILD_DIR"
 
-    # Configuración simple para Live Server
-    lb config --system live \
+    # Configuración ultra-simple para Live Server
+    lb config \
         --distribution "$UBUNTU_SUITE" \
         --archive-areas "main restricted universe multiverse" \
         --mode ubuntu \
         --architectures amd64 \
-        --binary-images iso-hybrid \
-        --bootloader syslinux \
-        --zsync false \
-        --debug --verbose
+        --binary-images iso
 
 
     log_success "Configuración de live-build completada"
