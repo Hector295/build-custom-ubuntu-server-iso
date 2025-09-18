@@ -338,8 +338,16 @@ apt-get clean -qq
 
 echo "=== Instalación de paquetes APT completada ==="
 EOF
-        # Reemplazar placeholder con paquetes reales
-        sed -i "s|PACKAGES_PLACEHOLDER|${apt_packages}|" "${hooks_dir}/0010-install-apt-packages.hook.chroot"
+        # Reemplazar placeholder con paquetes reales usando archivo temporal
+        temp_file=$(mktemp)
+        while IFS= read -r line; do
+            if [[ "$line" == *"PACKAGES_PLACEHOLDER"* ]]; then
+                echo "${line/PACKAGES_PLACEHOLDER/$apt_packages}"
+            else
+                echo "$line"
+            fi
+        done < "${hooks_dir}/0010-install-apt-packages.hook.chroot" > "$temp_file"
+        mv "$temp_file" "${hooks_dir}/0010-install-apt-packages.hook.chroot"
         chmod +x "${hooks_dir}/0010-install-apt-packages.hook.chroot"
         log_success "Hook de paquetes APT creado con validaciones"
     fi
@@ -424,8 +432,16 @@ rm -f /root/.config/pip/pip.conf
 
 echo "=== Instalación de paquetes PIP completada ==="
 EOF
-        # Reemplazar placeholder con paquetes reales
-        sed -i "s|PIP_PACKAGES_PLACEHOLDER|${pip_packages}|" "${hooks_dir}/0020-install-pip-packages.hook.chroot"
+        # Reemplazar placeholder con paquetes reales usando archivo temporal
+        temp_file=$(mktemp)
+        while IFS= read -r line; do
+            if [[ "$line" == *"PIP_PACKAGES_PLACEHOLDER"* ]]; then
+                echo "${line/PIP_PACKAGES_PLACEHOLDER/$pip_packages}"
+            else
+                echo "$line"
+            fi
+        done < "${hooks_dir}/0020-install-pip-packages.hook.chroot" > "$temp_file"
+        mv "$temp_file" "${hooks_dir}/0020-install-pip-packages.hook.chroot"
         chmod +x "${hooks_dir}/0020-install-pip-packages.hook.chroot"
         log_success "Hook de paquetes PIP creado con validaciones"
     fi
