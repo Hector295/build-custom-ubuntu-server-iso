@@ -196,47 +196,14 @@ configure_live_build() {
 
     cd "$BUILD_DIR"
 
-    # Configuración optimizada para Live Server
+    # Configuración simple para Live Server
     lb config \
         --distribution "$UBUNTU_SUITE" \
-        --parent-distribution "$UBUNTU_SUITE" \
         --archive-areas "main restricted universe multiverse" \
-        --parent-archive-areas "main restricted universe multiverse" \
-        --mirror-bootstrap "$UBUNTU_MIRROR" \
-        --mirror-chroot "$UBUNTU_MIRROR" \
-        --mirror-binary "$UBUNTU_MIRROR" \
-        --mirror-debian-installer "$UBUNTU_MIRROR" \
-        --parent-mirror-bootstrap "$UBUNTU_MIRROR" \
-        --parent-mirror-chroot "$UBUNTU_MIRROR" \
-        --parent-mirror-binary "$UBUNTU_MIRROR" \
-        --mirror-chroot-security "$UBUNTU_SECURITY_MIRROR" \
-        --mirror-binary-security "$UBUNTU_SECURITY_MIRROR" \
-        --parent-mirror-chroot-security "$UBUNTU_SECURITY_MIRROR" \
-        --parent-mirror-binary-security "$UBUNTU_SECURITY_MIRROR" \
         --mode ubuntu \
         --architectures amd64 \
-        --linux-flavours generic \
-        --linux-packages linux-image \
         --binary-images iso-live \
-        --memtest none \
-        --bootappend-live "boot=live components quiet splash console=tty0 console=ttyS0,115200n8" \
-        --bootappend-install "console=tty0 console=ttyS0,115200n8" \
-        --debian-installer live \
-        --debian-installer-gui false \
-        --debian-installer-distribution "$UBUNTU_SUITE" \
-        --iso-application "Ubuntu ${UBUNTU_VERSION} Live Server Custom" \
-        --iso-publisher "Ubuntu Live ISO Builder" \
-        --iso-volume "Ubuntu_${UBUNTU_VERSION}_Live_Server" \
-        --bootloader grub-efi \
-        --firmware-chroot false \
-        --firmware-binary false \
-        --apt-recommends false \
-        --apt-secure true \
-        --cache true \
-        --cache-indices true \
-        --cache-packages true \
-        --compression gzip \
-        --zsync false
+        --bootloader grub-efi
 
 
     log_success "Configuración de live-build completada"
