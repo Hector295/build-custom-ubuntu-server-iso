@@ -203,7 +203,7 @@ configure_live_build() {
         --mode ubuntu \
         --architectures amd64 \
         --binary-images iso-hybrid \
-        --bootloader grub-efi \
+        --bootloader syslinux \
         --zsync false \
         --debug --verbose
 
@@ -270,12 +270,8 @@ build_iso() {
         local final_name="ubuntu-${UBUNTU_VERSION}-live-server-custom.iso"
         mv "$iso_file" "${PROJECT_DIR}/${final_name}"
 
-        # Hacer la ISO híbrida/booteable si no lo es
-        log_info "Verificando si la ISO es booteable..."
-        if command -v isohybrid &> /dev/null; then
-            log_info "Convirtiendo a ISO híbrida booteable..."
-            isohybrid "${PROJECT_DIR}/${final_name}" 2>/dev/null || log_warning "No se pudo convertir a híbrida"
-        fi
+        # La ISO debería ser híbrida automáticamente con --binary-images iso-hybrid
+        log_info "ISO generada como imagen híbrida"
 
         log_success "¡ISO creada exitosamente!"
         log_success "Ubicación: ${PROJECT_DIR}/${final_name}"

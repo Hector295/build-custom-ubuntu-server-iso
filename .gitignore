@@ -1,2 +1,34 @@
+# Archivos de construcción
 build/
 *.iso
+
+# Archivos temporales
+*.log
+*.tmp
+.meta
+
+# Directorios de cache
+cache/
+.cache/
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Node modules (si se usan)
+node_modules/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Editor files
+.vscode/
+*.swp
+*.swo
+*~
+
+# Archivos de backup
+*.bak
+*.backup
