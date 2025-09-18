@@ -1,0 +1,38 @@
+# Paquetes específicos para Ubuntu 22.04 LTS (Jammy Jellyfish)
+# Un paquete por línea, líneas vacías y comentarios (#) son ignorados
+
+# Herramientas básicas del sistema
+curl
+wget
+git
+vim
+nano
+btop
+tree
+unzip
+
+# Herramientas de red
+net-tools
+iputils-ping
+nmap
+openssh-server
+dmidecode
+ipmitool
+ethtool
+lldpd
+
+# Desarrollo
+python3
+python3-pip
+python3-venv
+build-essential
+
+# Administración del sistema
+sudo
+systemd
+cron
+
+# Específicos para Jammy (22.04)
+ubuntu-server
+cloud-init
+snapd

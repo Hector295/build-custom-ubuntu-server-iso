@@ -1,0 +1,39 @@
+# Paquetes específicos para Ubuntu 24.04 LTS (Noble Numbat)
+# Un paquete por línea, líneas vacías y comentarios (#) son ignorados
+
+# Herramientas básicas del sistema
+curl
+wget
+git
+vim
+nano
+btop
+tree
+unzip
+
+# Herramientas de red
+net-tools
+iputils-ping
+nmap
+openssh-server
+dmidecode
+ipmitool
+ethtool
+lldpd
+
+# Desarrollo
+python3
+python3-pip
+python3-venv
+build-essential
+
+# Administración del sistema
+sudo
+systemd
+cron
+
+# Específicos para Noble (24.04)
+ubuntu-server
+cloud-init
+snapd
+netplan.io
