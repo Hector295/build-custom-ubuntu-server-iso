@@ -141,6 +141,9 @@ read_apt_packages() {
         done < "$apt_file_specific"
     fi
 
+    # Filtrar solo nombres de paquetes válidos (sin .txt, espacios, caracteres especiales problemáticos)
+    packages=$(echo "$packages" | tr ' ' '\n' | grep -v '\.txt$' | grep -v '^$' | grep -E '^[a-zA-Z0-9][a-zA-Z0-9\.\-\+]*$' | tr '\n' ' ')
+
     # Solo devolver los nombres de paquetes limpios
     echo "$packages"
 }
@@ -241,6 +244,7 @@ create_installation_hooks() {
 
     # Hook para paquetes APT con validaciones
     local apt_packages=$(read_apt_packages)
+    log_info "DEBUG: Paquetes leídos: '$apt_packages'"
     if [ ! -z "$apt_packages" ]; then
         log_info "Paquetes APT a instalar: $(echo $apt_packages | wc -w) paquetes"
         cat > "${hooks_dir}/0010-install-apt-packages.hook.chroot" << 'EOF'
