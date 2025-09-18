@@ -1,0 +1,8 @@
+# Ignorar archivos innecesarios para el contexto Docker
+build/
+*.iso
+.git/
+*.md
+.meta
+node_modules/
+*.log

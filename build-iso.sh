@@ -202,8 +202,9 @@ configure_live_build() {
         --archive-areas "main restricted universe multiverse" \
         --mode ubuntu \
         --architectures amd64 \
-        --binary-images iso \
+        --binary-images iso-hybrid \
         --bootloader grub-efi \
+        --zsync false \
         --debug --verbose
 
 
@@ -221,18 +222,17 @@ create_installation_hooks() {
     local apt_packages=$(read_apt_packages)
     if [ ! -z "$apt_packages" ]; then
         log_info "Paquetes APT a instalar: $(echo $apt_packages | wc -w) paquetes"
-        cat > "${hooks_dir}/0010-install-apt.hook.chroot" << 'EOF'
+        cat > "${hooks_dir}/0010-install-apt.hook.chroot" << EOF
 #!/bin/bash
 set -e
 export DEBIAN_FRONTEND=noninteractive
 
 echo "=== Instalando paquetes APT ==="
 apt-get update
-apt-get install -y PACKAGES_PLACEHOLDER
+apt-get install -y $apt_packages
 apt-get clean
 echo "=== Paquetes APT instalados ==="
 EOF
-        sed -i "s|PACKAGES_PLACEHOLDER|$apt_packages|" "${hooks_dir}/0010-install-apt.hook.chroot"
         chmod +x "${hooks_dir}/0010-install-apt.hook.chroot"
         log_success "Hook APT creado"
     fi
@@ -241,15 +241,14 @@ EOF
     local pip_packages=$(read_pip_packages)
     if [ ! -z "$pip_packages" ]; then
         log_info "Paquetes PIP a instalar: $pip_packages"
-        cat > "${hooks_dir}/0020-install-pip.hook.chroot" << 'EOF'
+        cat > "${hooks_dir}/0020-install-pip.hook.chroot" << EOF
 #!/bin/bash
 set -e
 
 echo "=== Instalando paquetes PIP ==="
-pip3 install PIP_PACKAGES_PLACEHOLDER
+pip3 install $pip_packages
 echo "=== Paquetes PIP instalados ==="
 EOF
-        sed -i "s|PIP_PACKAGES_PLACEHOLDER|$pip_packages|" "${hooks_dir}/0020-install-pip.hook.chroot"
         chmod +x "${hooks_dir}/0020-install-pip.hook.chroot"
         log_success "Hook PIP creado"
     fi
@@ -270,6 +269,14 @@ build_iso() {
     if [ ! -z "$iso_file" ]; then
         local final_name="ubuntu-${UBUNTU_VERSION}-live-server-custom.iso"
         mv "$iso_file" "${PROJECT_DIR}/${final_name}"
+
+        # Hacer la ISO híbrida/booteable si no lo es
+        log_info "Verificando si la ISO es booteable..."
+        if command -v isohybrid &> /dev/null; then
+            log_info "Convirtiendo a ISO híbrida booteable..."
+            isohybrid "${PROJECT_DIR}/${final_name}" 2>/dev/null || log_warning "No se pudo convertir a híbrida"
+        fi
+
         log_success "¡ISO creada exitosamente!"
         log_success "Ubicación: ${PROJECT_DIR}/${final_name}"
 

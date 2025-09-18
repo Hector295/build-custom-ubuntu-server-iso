@@ -45,18 +45,38 @@ sudo ./scripts/install-dependencies.sh
 
 ## 📖 Uso
 
-### Modo interactivo (recomendado)
+### 🐳 Con Docker (Recomendado para Ubuntu 24.04)
+
+Si estás en Ubuntu 24.04 y quieres generar Ubuntu 20.04/22.04:
+
+```bash
+# Instalar Docker si no lo tienes
+sudo apt update && sudo apt install docker.io
+sudo usermod -aG docker $USER
+# Reiniciar sesión después de agregar al grupo
+
+# Ejecutar con Docker
+./docker-build.sh
+```
+
+Dentro del contenedor Docker:
+```bash
+# Modo interactivo
+./build-iso.sh
+
+# Modo automatizado
+./build-iso-automated.sh -v 20.04
+```
+
+### 💻 Modo nativo (Ubuntu 20.04 host)
+
+#### Modo interactivo
 
 ```bash
 ./build-iso.sh
 ```
 
-Este modo te guiará paso a paso para:
-1. Seleccionar la versión de Ubuntu
-2. Configurar automáticamente mirrors y paquetes
-3. Generar la imagen ISO personalizada
-
-### Modo automatizado
+#### Modo automatizado
 
 ```bash
 # Generar Ubuntu 22.04 básico
