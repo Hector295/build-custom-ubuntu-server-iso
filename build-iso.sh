@@ -339,7 +339,7 @@ apt-get clean -qq
 echo "=== Instalación de paquetes APT completada ==="
 EOF
         # Reemplazar placeholder con paquetes reales
-        sed -i "s/PACKAGES_PLACEHOLDER/${apt_packages}/" "${hooks_dir}/0010-install-apt-packages.hook.chroot"
+        sed -i "s|PACKAGES_PLACEHOLDER|${apt_packages}|" "${hooks_dir}/0010-install-apt-packages.hook.chroot"
         chmod +x "${hooks_dir}/0010-install-apt-packages.hook.chroot"
         log_success "Hook de paquetes APT creado con validaciones"
     fi
@@ -425,7 +425,7 @@ rm -f /root/.config/pip/pip.conf
 echo "=== Instalación de paquetes PIP completada ==="
 EOF
         # Reemplazar placeholder con paquetes reales
-        sed -i "s/PIP_PACKAGES_PLACEHOLDER/${pip_packages}/" "${hooks_dir}/0020-install-pip-packages.hook.chroot"
+        sed -i "s|PIP_PACKAGES_PLACEHOLDER|${pip_packages}|" "${hooks_dir}/0020-install-pip-packages.hook.chroot"
         chmod +x "${hooks_dir}/0020-install-pip-packages.hook.chroot"
         log_success "Hook de paquetes PIP creado con validaciones"
     fi
